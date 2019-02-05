@@ -1,0 +1,18 @@
+<?xml version="1.0"?>
+<!--
+ ~ NOTICE OF LICENSE
+ ~
+ ~ This source file is subject to the Open Software License (OSL 3.0)
+ ~ that is available through the world-wide-web at this URL:
+ ~ http://opensource.org/licenses/osl-3.0.php
+-->
+<config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xsi:noNamespaceSchemaLocation="urn:magento:framework:ObjectManager/etc/config.xsd">
+    <preference for="Magento\Widget\Block\Adminhtml\Widget\Form" type="Magenerds\WysiwygWidget\Block\Adminhtml\Widget\Form"/>
+    <type name="Magento\Widget\Model\Widget">
+        <plugin name="Magenerds_WysiwygWidget::widgetEncode" type="Magenerds\WysiwygWidget\Plugin\Model\WidgetPlugin"/>
+    </type>
+    <type name="Magento\Widget\Block\Adminhtml\Widget\Options">
+        <plugin name="Magenerds_WysiwygWidget::widgetDecodeBackend" type="Magenerds\WysiwygWidget\Plugin\Block\WidgetOptionsPlugin"/>
+    </type>
+</config>
