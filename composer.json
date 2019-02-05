@@ -3,7 +3,10 @@
     "description": "This module adds a wysiwyg editor to the widget menu.",
     "require": {
         "magento/framework": "^102.0.0",
-        "magenerds/dashboard": "*"
+        "magenerds/dashboard": "*",
+        "magento/module-cms": "*",
+        "magento/module-backend": "*",
+        "magento/module-widget": "*"
     },
     "type": "magento2-module",
     "license": [

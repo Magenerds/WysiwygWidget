@@ -8,6 +8,7 @@
 -->
 <config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
         xsi:noNamespaceSchemaLocation="urn:magento:framework:ObjectManager/etc/config.xsd">
+    <preference for="Magento\Widget\Block\Adminhtml\Widget" type="Magenerds\WysiwygWidget\Block\Adminhtml\Widget" />
     <preference for="Magento\Widget\Block\Adminhtml\Widget\Form" type="Magenerds\WysiwygWidget\Block\Adminhtml\Widget\Form"/>
     <type name="Magento\Widget\Model\Widget">
         <plugin name="Magenerds_WysiwygWidget::widgetEncode" type="Magenerds\WysiwygWidget\Plugin\Model\WidgetPlugin"/>

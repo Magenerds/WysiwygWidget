@@ -9,8 +9,8 @@
 
 namespace Magenerds\WysiwygWidget\Block\Adminhtml;
 
+use Magenerds\WysiwygWidget\Model\WidgetInstance;
 use Magento\Backend\Block\Widget\Context;
-use Magento\Framework\Registry;
 use Magento\Widget\Block\Adminhtml\Widget as BaseWidget;
 
 /**
@@ -25,31 +25,24 @@ use Magento\Widget\Block\Adminhtml\Widget as BaseWidget;
 class Widget extends BaseWidget
 {
     /**
-     * Registry key to save widget form key
-     *
-     * @var string
+     * @var WidgetInstance
      */
-    const REGISTRY_KEY_WIDGET_FORM_KEY = 'widget_form_key';
-
-    /**
-     * @var Registry
-     */
-    protected $registry;
+    protected $widgetInstance;
 
     /**
      * Widget constructor.
      *
      * @param Context $context
-     * @param Registry $registry
+     * @param WidgetInstance $widgetInstance
      * @param array $data
      */
     public function __construct(
         Context $context,
-        Registry $registry,
+        WidgetInstance $widgetInstance,
         array $data = []
     )
     {
-        $this->registry = $registry;
+        $this->widgetInstance = $widgetInstance;
         parent::__construct($context, $data);
     }
 
@@ -64,9 +57,8 @@ class Widget extends BaseWidget
         // generate widget key
         $widgetKey = 'widget_' . uniqid();
 
-        // register widget key
-        $this->registry->unregister(static::REGISTRY_KEY_WIDGET_FORM_KEY);
-        $this->registry->register(static::REGISTRY_KEY_WIDGET_FORM_KEY, $widgetKey);
+        // set widget key
+        $this->widgetInstance->setWidgetKey($widgetKey);
 
         // set button id and action
         $this->buttonList->update('save', 'onclick', $widgetKey . '.insertWidget()');

@@ -14,7 +14,7 @@
  * @author      Simon Sippert <s.sippert@techdivision.com>
  */
 define([
-    '$',
+    'jquery',
     'uiClass',
     'mage/adminhtml/wysiwyg/widget'
 ], function ($, Class) {
@@ -35,6 +35,7 @@ define([
         this.openDialog_original.apply(this, arguments);
 
         // set close function to only close current window
+        // noinspection JSUnusedGlobalSymbols
         this.dialogWindow = {
             modal: function () {
                 $('.modals-wrapper .modal-slide._show .action-close').last().trigger('click');
@@ -43,17 +44,41 @@ define([
     };
 
     // preserve original function
-    // noinspection AmdModulesDependencies
-    if (!MediabrowserUtility.openDialog_original) {
-        // noinspection AmdModulesDependencies
-        MediabrowserUtility.openDialog_original = MediabrowserUtility.openDialog;
+    // noinspection JSUnresolvedVariable
+    if (!$.mage.mediabrowser.prototype.getTargetElement_original) {
+        // noinspection JSUnresolvedVariable
+        $.mage.mediabrowser.prototype.getTargetElement_original = $.mage.mediabrowser.prototype.getTargetElement;
     }
 
-    // fix modal open function of media browser to not override the active window
-    // noinspection AmdModulesDependencies
-    MediabrowserUtility.openDialog = function () {
-        this.modal = null;
-        this.openDialog_original.apply(this, arguments);
+    // fix target element to only set the image url and not the whole widget directive
+    // noinspection JSUnresolvedVariable
+    $.mage.mediabrowser.prototype.getTargetElement = function () {
+        // get element
+        let element = this.getTargetElement_original();
+
+        // check if the target element is a widget image chooser field
+        if (element.attr('name') === 'parameters[image]') {
+            // add onChange event to retrieve the real image path
+            element.change(function () {
+                // split URL in pieces
+                let split = element.val().split('/'),
+                    index = $.inArray('___directive', split);
+
+                // search for widget directive
+                if (index > -1) {
+                    // decode its value
+                    // noinspection AmdModulesDependencies,RegExpRedundantEscape
+                    let code = Base64.mageDecode(decodeURIComponent(split[index + 1])),
+                        link = code.replace(/^\{\{media url="(.*?)"\}\}$/, '$1');
+
+                    // append the link
+                    element.val(link);
+                }
+            });
+        }
+
+        // return the element
+        return element;
     };
 
     return Class.extend({
@@ -112,7 +137,7 @@ define([
              */
             window[widgetInstance].validateField = window[widgetInstance].validateField.wrap(function (proceed) {
                 proceed();
-                $('[id=insert_button]').removeClass('disabled');
+                $('[id="insert_button"]').removeClass('disabled');
             });
         }
     });

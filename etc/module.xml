@@ -10,6 +10,9 @@
         xsi:noNamespaceSchemaLocation="urn:magento:framework:Module/etc/module.xsd">
     <module name="Magenerds_WysiwygWidget" setup_version="1.0.0">
         <sequence>
+            <module name="Magento_Cms"/>
+            <module name="Magento_Backend"/>
+            <module name="Magento_Widget"/>
         </sequence>
     </module>
 </config>

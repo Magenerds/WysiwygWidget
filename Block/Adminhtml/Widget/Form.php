@@ -9,9 +9,14 @@
 
 namespace Magenerds\WysiwygWidget\Block\Adminhtml\Widget;
 
-use Magenerds\WysiwygWidget\Block\Adminhtml\Widget;
+use Magenerds\WysiwygWidget\Model\WidgetInstance;
+use Magento\Backend\Block\Template\Context;
 use Magento\Framework\Data\Form as DataForm;
+use Magento\Framework\Data\FormFactory;
+use /** @noinspection PhpDeprecationInspection */
+    Magento\Framework\Registry;
 use Magento\Widget\Block\Adminhtml\Widget\Form as BaseForm;
+use Magento\Widget\Model\WidgetFactory;
 
 /**
  * Class Form
@@ -24,6 +29,36 @@ use Magento\Widget\Block\Adminhtml\Widget\Form as BaseForm;
  */
 class Form extends BaseForm
 {
+    /** @noinspection PhpDeprecationInspection */
+    /**
+     * @var WidgetInstance
+     */
+    private $widgetInstance;
+
+    /**
+     * Form constructor.
+     *
+     * @param Context $context
+     * @param Registry $registry
+     * @param FormFactory $formFactory
+     * @param WidgetFactory $widgetFactory
+     * @param WidgetInstance $widgetInstance
+     * @param array $data
+     */
+    public function __construct(
+        /** @noinspection PhpDeprecationInspection */
+        Context $context,
+        Registry $registry,
+        FormFactory $formFactory,
+        WidgetFactory $widgetFactory,
+        WidgetInstance $widgetInstance,
+        array $data = []
+    )
+    {
+        $this->widgetInstance = $widgetInstance;
+        parent::__construct($context, $registry, $formFactory, $widgetFactory, $data);
+    }
+
     /**
      * Form with widget to select
      */
@@ -37,7 +72,7 @@ class Form extends BaseForm
         $fieldSet = $form->addFieldset('base_fieldset', ['legend' => __('Widget')]);
 
         // retrieve widget key
-        $widgetKey = $this->_coreRegistry->registry(Widget::REGISTRY_KEY_WIDGET_FORM_KEY);
+        $widgetKey = $this->widgetInstance->getWidgetKey();
 
         // add new field
         $fieldSet->addField(
