@@ -10,7 +10,7 @@
 namespace Magenerds\WysiwygWidget\Plugin\Model;
 
 use Closure;
-use Magenerds\WysiwygWidget\Block\Widget\Editor;
+use Magenerds\WysiwygWidget\Api\WysiwygContentInterface;
 use Magenerds\WysiwygWidget\Api\Constants;
 use Magento\Widget\Model\Widget as Subject;
 
@@ -45,12 +45,13 @@ final class WidgetPlugin
         $asIs = true
     )
     {
-        // check for editor widget
-        if ($type === Editor::class) {
+        // check if widget should be encoded
+        /** @var WysiwygContentInterface $type */
+        if (class_exists($type) && is_subclass_of($type, WysiwygContentInterface::class)) {
             // iterate over values
             foreach ($params as $name => &$value) {
                 // check if value is a string
-                if ($value && is_string($value) && $name === 'content') {
+                if ($value && is_string($value) && in_array($name, $type::getWysiwygContentFields())) {
                     // encode value
                     $value = Constants::BASE64_PREFIX . base64_encode($value);
                 }

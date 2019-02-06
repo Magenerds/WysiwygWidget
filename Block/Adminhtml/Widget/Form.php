@@ -13,10 +13,13 @@ use Magenerds\WysiwygWidget\Model\WidgetInstance;
 use Magento\Backend\Block\Template\Context;
 use Magento\Framework\Data\Form as DataForm;
 use Magento\Framework\Data\FormFactory;
+use Magento\Framework\DataObject;
+use Magento\Framework\DataObjectFactory;
 use /** @noinspection PhpDeprecationInspection */
     Magento\Framework\Registry;
 use Magento\Widget\Block\Adminhtml\Widget\Form as BaseForm;
-use Magento\Widget\Model\WidgetFactory;
+use /** @noinspection PhpUndefinedClassInspection */
+    Magento\Widget\Model\WidgetFactory;
 
 /**
  * Class Form
@@ -29,12 +32,16 @@ use Magento\Widget\Model\WidgetFactory;
  */
 class Form extends BaseForm
 {
-    /** @noinspection PhpDeprecationInspection */
     /**
      * @var WidgetInstance
      */
-    private $widgetInstance;
+    protected $widgetInstance;
+    /**
+     * @var DataObjectFactory
+     */
+    private $dataObjectFactory;
 
+    /** @noinspection PhpUndefinedClassInspection */
     /**
      * Form constructor.
      *
@@ -42,19 +49,22 @@ class Form extends BaseForm
      * @param Registry $registry
      * @param FormFactory $formFactory
      * @param WidgetFactory $widgetFactory
+     * @param DataObjectFactory $dataObjectFactory
      * @param WidgetInstance $widgetInstance
      * @param array $data
      */
     public function __construct(
-        /** @noinspection PhpDeprecationInspection */
+        /** @noinspection PhpDeprecationInspection PhpUndefinedClassInspection */
         Context $context,
         Registry $registry,
         FormFactory $formFactory,
         WidgetFactory $widgetFactory,
+        DataObjectFactory $dataObjectFactory,
         WidgetInstance $widgetInstance,
         array $data = []
     )
     {
+        $this->dataObjectFactory = $dataObjectFactory;
         $this->widgetInstance = $widgetInstance;
         parent::__construct($context, $registry, $formFactory, $widgetFactory, $data);
     }
@@ -99,5 +109,18 @@ class Form extends BaseForm
         /** @noinspection PhpUndefinedMethodInspection */
         $form->setAction($this->getUrl('adminhtml/*/buildWidget'));
         $this->setForm($form);
+    }
+
+    /**
+     * Retrieve Additional Element Types
+     *
+     * @return array
+     */
+    protected function _getAdditionalElementTypes()
+    {
+        /** @var DataObject $result */
+        $result = $this->dataObjectFactory->create(['types' => []]);
+        $this->_eventManager->dispatch('widget_form_additional_element_types', ['result' => $result]);
+        return (array)$result ?: [];
     }
 }

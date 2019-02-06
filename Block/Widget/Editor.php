@@ -11,6 +11,7 @@ namespace Magenerds\WysiwygWidget\Block\Widget;
 
 use Exception;
 use Magenerds\WysiwygWidget\Api\Constants;
+use Magenerds\WysiwygWidget\Api\WysiwygContentInterface;
 use Magento\Cms\Model\Template\FilterProvider;
 use Magento\Framework\View\Element\Template;
 use Magento\Framework\View\Element\Template\Context;
@@ -25,12 +26,22 @@ use Magento\Widget\Block\BlockInterface;
  * @site        https://www.techdivision.com/
  * @author      Simon Sippert <s.sippert@techdivision.com>
  */
-class Editor extends Template implements BlockInterface
+class Editor extends Template implements BlockInterface, WysiwygContentInterface
 {
     /**
      * @var FilterProvider
      */
     protected $filterProvider;
+
+    /**
+     * Return the wysiwyg fields that should be encoded
+     *
+     * @return array
+     */
+    public static function getWysiwygContentFields(): array
+    {
+        return ['content'];
+    }
 
     /**
      * Editor constructor.

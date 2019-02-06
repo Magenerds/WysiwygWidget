@@ -10,20 +10,20 @@
 namespace Magenerds\WysiwygWidget\Api;
 
 /**
- * Class Constants
+ * Class WysiwygContentInterface
  *
  * @package     Magenerds\WysiwygWidget\Api
- * @file        Constants.php
+ * @file        WysiwygContentInterface.php
  * @copyright   Copyright (c) 2019 TechDivision GmbH (https://www.techdivision.com)
  * @site        https://www.techdivision.com/
  * @author      Simon Sippert <s.sippert@techdivision.com>
  */
-interface Constants
+interface WysiwygContentInterface
 {
     /**
-     * This prefix gets added to base64 encoded content
+     * Return the wysiwyg fields that should be encoded
      *
-     * @type string
+     * @return array
      */
-    const BASE64_PREFIX = '---BASE64---';
+    public static function getWysiwygContentFields(): array;
 }
