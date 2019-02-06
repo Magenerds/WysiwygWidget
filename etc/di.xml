@@ -16,4 +16,7 @@
     <type name="Magento\Widget\Block\Adminhtml\Widget\Options">
         <plugin name="Magenerds_WysiwygWidget::widgetDecodeBackend" type="Magenerds\WysiwygWidget\Plugin\Block\WidgetOptionsPlugin"/>
     </type>
+    <type name="Magento\Widget\Controller\Adminhtml\Widget\Index">
+        <plugin name="Magenerds_WysiwygWidget::widgetSkipWysiwyg" type="Magenerds\WysiwygWidget\Plugin\Controller\WidgetIndexPlugin"/>
+    </type>
 </config>

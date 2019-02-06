@@ -14,6 +14,7 @@ use Magento\Backend\Block\Template\Context;
 use Magento\Backend\Block\Widget\Form\Element;
 use Magento\Cms\Model\Wysiwyg\Config;
 use Magento\Framework\Data\Form\Element\AbstractElement;
+use Magento\Framework\Data\Form\Element\Editor as EditorElement;
 use Magento\Framework\Data\Form\Element\Factory;
 
 /**
@@ -66,14 +67,12 @@ class Editor extends Element
     public function prepareElementHtml(AbstractElement $element)
     {
         // create editor
+        /** @var EditorElement $editor */
         /** @noinspection PhpUndefinedMethodInspection */
         $editor = $this->factoryElement->create('editor', ['data' => $element->getData()])
-            ->setLabel('')
-            ->setForm($element->getForm())
-            ->setWysiwyg(true)
-            ->setConfig($this->wysiwygConfig->getConfig([
-                'skip_widgets' => [EditorBlock::class]
-            ]));
+            ->setData('label', '')
+            ->setForm($element->getForm());
+        $this->setEditorConfig($editor);
 
         // add required class
         /** @noinspection PhpUndefinedMethodInspection */
@@ -82,7 +81,7 @@ class Editor extends Element
             $editor->addClass('required-entry');
         }
 
-        // set element html
+        // as we're loading the editor after the page has been completely loaded, we need to change onLoad() to ready()
         /** @noinspection PhpUndefinedMethodInspection */
         $element->setData(
             'after_element_html',
@@ -92,6 +91,33 @@ class Editor extends Element
 
         // return element
         return $element;
+    }
+
+    /**
+     * Get skipped widgets
+     *
+     * @return array
+     */
+    protected function getSkippedWidgets()
+    {
+        return [EditorBlock::class];
+    }
+
+    /**
+     * Set editor configuration
+     *
+     * @param EditorElement $editor
+     * @return EditorElement
+     */
+    protected function setEditorConfig(EditorElement $editor)
+    {
+        /** @noinspection PhpUndefinedMethodInspection */
+        return $editor
+            ->setData('wysiwyg', true)
+            ->setData('config', $this->wysiwygConfig->getConfig([
+                'skip_widgets' => $this->getSkippedWidgets(),
+                'add_widgets' => true,
+            ]));
     }
 
     /**
