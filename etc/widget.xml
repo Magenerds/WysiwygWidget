@@ -13,7 +13,7 @@
         <label translate="true">Wysiwyg Editor</label>
         <description translate="true">Wysiwyg Editor</description>
         <parameters>
-            <parameter name="content" xsi:type="block" visible="true" required="true" sort_order="20">
+            <parameter name="content" xsi:type="block" visible="true" required="true" sort_order="10">
                 <label translate="true">Content</label>
                 <block class="Magenerds\WysiwygWidget\Block\Adminhtml\Widget\Editor"/>
             </parameter>

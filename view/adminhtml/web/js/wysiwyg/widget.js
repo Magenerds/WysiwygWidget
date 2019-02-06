@@ -83,7 +83,7 @@ define([
 
     return Class.extend({
         /**
-         * Initializes the Widget object
+         * Initialize the Widget object
          *
          * @returns {exports}
          */
@@ -95,7 +95,7 @@ define([
         },
 
         /**
-         * Initializes the magento widget chooser
+         * Initialize the magento widget chooser
          */
         initWidget: function () {
             // get params
@@ -110,7 +110,7 @@ define([
             window[widgetInstance] = new (WysiwygWidget.Widget.bind.apply(WysiwygWidget.Widget, params));
 
             /**
-             * Inserts the widget into the parent element
+             * Insert the widget into the parent element
              */
             window[widgetInstance].insertWidget = window[widgetInstance].insertWidget.wrap(function (proceed) {
                 // get current form
@@ -133,7 +133,7 @@ define([
             });
 
             /**
-             * Inserts the widget into the parent element
+             * Insert the widget into the parent element
              */
             window[widgetInstance].validateField = window[widgetInstance].validateField.wrap(function (proceed) {
                 proceed();

@@ -10,7 +10,7 @@
 namespace Magenerds\WysiwygWidget\Plugin\Block;
 
 use Magenerds\WysiwygWidget\Api\Constants;
-use Magento\Widget\Block\Adminhtml\Widget\Options;
+use Magento\Widget\Block\Adminhtml\Widget\Options as Subject;
 
 /**
  * Class WidgetOptionsPlugin
@@ -24,11 +24,14 @@ use Magento\Widget\Block\Adminhtml\Widget\Options;
 final class WidgetOptionsPlugin
 {
     /**
-     * Decodes Base64-encoded fields to be output in their normal state
+     * Decode Base64-encoded fields to be output in their normal state
+     * @see Subject::addFields()
      *
-     * @param Options $subject
+     * @param Subject $subject
      */
-    public function beforeAddFields(Options $subject)
+    public function beforeAddFields(
+        Subject $subject
+    )
     {
         // get widget values
         /** @noinspection PhpUndefinedMethodInspection */

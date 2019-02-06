@@ -12,7 +12,7 @@ namespace Magenerds\WysiwygWidget\Plugin\Model;
 use Closure;
 use Magenerds\WysiwygWidget\Block\Widget\Editor;
 use Magenerds\WysiwygWidget\Api\Constants;
-use Magento\Widget\Model\Widget;
+use Magento\Widget\Model\Widget as Subject;
 
 /**
  * Class WidgetPlugin
@@ -26,9 +26,10 @@ use Magento\Widget\Model\Widget;
 final class WidgetPlugin
 {
     /**
-     * Encodes values with Base64 that cannot be saved in normal state because of quotes in them etc.
+     * Encode values with Base64 that cannot be saved in normal state because of quotes in them etc.
+     * @see Subject::getWidgetDeclaration()
      *
-     * @param Widget $subject
+     * @param Subject $subject
      * @param Closure $proceed
      * @param $type
      * @param array $params
@@ -37,7 +38,7 @@ final class WidgetPlugin
      */
     public function aroundGetWidgetDeclaration(
         /** @noinspection PhpUnusedParameterInspection */
-        Widget $subject, // NOSONAR
+        Subject $subject, // NOSONAR
         Closure $proceed,
         $type,
         $params = [],
