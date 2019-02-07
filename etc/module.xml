@@ -8,6 +8,7 @@
 -->
 <config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
         xsi:noNamespaceSchemaLocation="urn:magento:framework:Module/etc/module.xsd">
+    <!-- please never change this version unless you need to add a setup script -->
     <module name="Magenerds_WysiwygWidget" setup_version="1.0.0">
         <sequence>
             <module name="Magento_Cms"/>
