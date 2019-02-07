@@ -9,7 +9,7 @@
 
 namespace Magenerds\WysiwygWidget\Plugin\Block;
 
-use Magenerds\WysiwygWidget\Api\Constants;
+use Magenerds\WysiwygWidget\Wysiwyg\Encoder;
 use Magento\Widget\Block\Adminhtml\Widget\Options as Subject;
 
 /**
@@ -24,7 +24,24 @@ use Magento\Widget\Block\Adminhtml\Widget\Options as Subject;
 final class WidgetOptionsPlugin
 {
     /**
-     * Decode Base64-encoded fields to be output in their normal state
+     * @var Encoder
+     */
+    protected $encoder;
+
+    /**
+     * WidgetOptionsPlugin constructor.
+     *
+     * @param Encoder $encoder
+     */
+    public function __construct(
+        Encoder $encoder
+    )
+    {
+        $this->encoder = $encoder;
+    }
+
+    /**
+     * Decode encoded fields to be output in their normal state
      * @see Subject::addFields()
      *
      * @param Subject $subject
@@ -39,11 +56,7 @@ final class WidgetOptionsPlugin
 
         // iterate over values
         foreach ($params as &$value) {
-            // check if value has been encoded with base64
-            if ($value && is_string($value) && strpos($value, Constants::BASE64_PREFIX) === 0) {
-                // decode value
-                $value = base64_decode(str_replace(Constants::BASE64_PREFIX, '', $value));
-            }
+            $value = $this->encoder->decode($value);
         }
 
         // set decoded values

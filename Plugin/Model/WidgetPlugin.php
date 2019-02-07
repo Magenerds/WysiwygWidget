@@ -11,7 +11,7 @@ namespace Magenerds\WysiwygWidget\Plugin\Model;
 
 use Closure;
 use Magenerds\WysiwygWidget\Api\WysiwygContentInterface;
-use Magenerds\WysiwygWidget\Api\Constants;
+use Magenerds\WysiwygWidget\Wysiwyg\Encoder;
 use Magento\Widget\Model\Widget as Subject;
 
 /**
@@ -26,7 +26,24 @@ use Magento\Widget\Model\Widget as Subject;
 final class WidgetPlugin
 {
     /**
-     * Encode values with Base64 that cannot be saved in normal state because of quotes in them etc.
+     * @var Encoder
+     */
+    protected $encoder;
+
+    /**
+     * WidgetPlugin constructor.
+     *
+     * @param Encoder $encoder
+     */
+    public function __construct(
+        Encoder $encoder
+    )
+    {
+        $this->encoder = $encoder;
+    }
+
+    /**
+     * Encode values that cannot be saved in normal state because of quotes in them etc.
      * @see Subject::getWidgetDeclaration()
      *
      * @param Subject $subject
@@ -52,8 +69,7 @@ final class WidgetPlugin
             foreach ($params as $name => &$value) {
                 // check if value is a string
                 if ($value && is_string($value) && in_array($name, $type::getWysiwygContentFields())) {
-                    // encode value
-                    $value = Constants::BASE64_PREFIX . base64_encode($value);
+                    $value = $this->encoder->encode($value);
                 }
             }
         }

@@ -10,9 +10,8 @@
 namespace Magenerds\WysiwygWidget\Block\Widget;
 
 use Exception;
-use Magenerds\WysiwygWidget\Api\Constants;
 use Magenerds\WysiwygWidget\Api\WysiwygContentInterface;
-use Magento\Cms\Model\Template\FilterProvider;
+use Magenerds\WysiwygWidget\Wysiwyg\Encoder;
 use Magento\Framework\View\Element\Template;
 use Magento\Framework\View\Element\Template\Context;
 use Magento\Widget\Block\BlockInterface;
@@ -29,9 +28,9 @@ use Magento\Widget\Block\BlockInterface;
 class Editor extends Template implements BlockInterface, WysiwygContentInterface
 {
     /**
-     * @var FilterProvider
+     * @var Encoder
      */
-    protected $filterProvider;
+    protected $encoder;
 
     /**
      * Return the wysiwyg fields that should be encoded
@@ -46,18 +45,18 @@ class Editor extends Template implements BlockInterface, WysiwygContentInterface
     /**
      * Editor constructor.
      *
-     * @param FilterProvider $filterProvider
      * @param Context $context
+     * @param Encoder $encoder
      * @param array $data
      */
     public function __construct(
-        FilterProvider $filterProvider,
         Context $context,
+        Encoder $encoder,
         array $data = []
     )
     {
         parent::__construct($context, $data);
-        $this->filterProvider = $filterProvider;
+        $this->encoder = $encoder;
     }
 
     /**
@@ -68,16 +67,6 @@ class Editor extends Template implements BlockInterface, WysiwygContentInterface
      */
     protected function _toHtml()
     {
-        // get content
-        $content = $this->getData('content');
-
-        // check if content has been encoded with base64
-        if ($content && is_string($content) && strpos($content, Constants::BASE64_PREFIX) === 0) {
-            // decode content
-            $content = base64_decode(str_replace([Constants::BASE64_PREFIX, ' '], ['', '+'], $content));
-        }
-
-        // output content
-        return $this->filterProvider->getPageFilter()->filter($content);
+        return $this->encoder->decodeAndFilter($this->getData('content'));
     }
 }
