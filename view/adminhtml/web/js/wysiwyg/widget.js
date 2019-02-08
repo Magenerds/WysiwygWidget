@@ -128,6 +128,10 @@ define([
                     let textarea = $(this),
                         button = textarea.parent(wysiwygControlName).find('.action-show-hide');
                     if (!textarea.is(':hidden')) {
+                        // if we are currently in plain-text mode, we need to switch to editor and then
+                        // switch back to plain-text mode
+                        // this does the job, but feels extremely weird.
+                        // ===> FIXME
                         async = true;
                         setTimeout(function () {
                             button.click();
