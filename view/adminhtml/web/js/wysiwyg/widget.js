@@ -120,16 +120,30 @@ define([
                 let wysiwygControlName = '.admin__control-wysiwig';
 
                 // get all wysiwyg editors
-                let wysiwyg = form.find(wysiwygControlName).find('textarea').filter('textarea:hidden');
+                let wysiwyg = form.find(wysiwygControlName).find('textarea'),
+                    async = false;
 
                 // iterate over editors
                 wysiwyg.each(function () {
-                    // close them before saving
-                    $(this).parent(wysiwygControlName).find('.action-show-hide').click();
+                    let textarea = $(this),
+                        button = textarea.parent(wysiwygControlName).find('.action-show-hide');
+                    if (!textarea.is(':hidden')) {
+                        async = true;
+                        setTimeout(function () {
+                            button.click();
+                        }, 50);
+                    }
+                    button.click();
                 });
 
                 // execute original function
-                proceed();
+                if (async) {
+                    setTimeout(function () {
+                        proceed();
+                    }, 100);
+                } else {
+                    proceed();
+                }
             });
 
             /**
