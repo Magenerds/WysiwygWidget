@@ -80,7 +80,7 @@ class Encoder
         if ($this->isEncoded($value)) {
             return base64_decode(str_replace([static::ENCODER_PREFIX, ' '], ['', '+'], $value));
         }
-        return (string)$value;
+        return $value;
     }
 
     /**
