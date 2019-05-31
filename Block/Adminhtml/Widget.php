@@ -80,5 +80,8 @@ class Widget extends BaseWidget
             json_encode($this->getUrl('adminhtml/*/loadOptions')),
             json_encode($this->getRequest()->getParam('widget_target_id'))
         );
+
+        // set template
+        $this->setTemplate('Magenerds_WysiwygWidget::widget/form/container.phtml');
     }
 }

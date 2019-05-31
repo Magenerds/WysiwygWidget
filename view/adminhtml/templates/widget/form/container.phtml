@@ -1,0 +1,47 @@
+<?php
+/**
+ * NOTICE OF LICENSE
+ *
+ * This source file is subject to the Open Software License (OSL 3.0)
+ * that is available through the world-wide-web at this URL:
+ * http://opensource.org/licenses/osl-3.0.php
+ */
+
+/**
+ * Template for widget form container
+ * @see magento/module-backend/view/adminhtml/templates/widget/form/container.phtml
+ *
+ * @package     Magenerds\WysiwygWidget
+ * @file        container.phtml
+ * @copyright   Copyright (c) 2019 TechDivision GmbH (https://www.techdivision.com)
+ * @site        https://www.techdivision.com/
+ * @author      Simon Sippert <s.sippert@techdivision.com>
+ */
+
+/** @var \Magenerds\WysiwygWidget\Block\Adminhtml\Widget $block */
+?>
+<?php echo $block->getFormInitScripts(); ?>
+
+<?php if ($block->getButtonsHtml('header')): ?>
+    <div class="page-form-actions" <?php echo $block->getUiId('content-header'); ?>><?= $block->getButtonsHtml('header'); ?></div>
+<?php endif; ?>
+
+<?php if ($block->getButtonsHtml('toolbar')): ?>
+    <div class="page-main-actions">
+        <div class="page-actions">
+            <div class="page-actions-buttons">
+                <?= $block->getButtonsHtml('toolbar'); ?>
+            </div>
+        </div>
+    </div>
+<?php endif; ?>
+
+<?= $block->getFormHtml(); ?>
+
+<?php if ($block->hasFooterButtons()): ?>
+    <div class="content-footer">
+        <p class="form-buttons"><?= $block->getButtonsHtml('footer'); ?></p>
+    </div>
+<?php endif; ?>
+
+<?php echo $block->getFormScripts(); ?>
