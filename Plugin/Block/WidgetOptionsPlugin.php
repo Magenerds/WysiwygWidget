@@ -42,9 +42,8 @@ final class WidgetOptionsPlugin
 
     /**
      * Decode encoded fields to be output in their normal state
-     * @see Subject::addFields()
-     *
      * @param Subject $subject
+     * @see Subject::addFields()
      */
     public function beforeAddFields(
         Subject $subject

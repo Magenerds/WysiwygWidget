@@ -43,9 +43,8 @@ final class WidgetIndexPlugin
 
     /**
      * Hide wysiwyg editor widget in stacked widget list
-     * @see Subject::execute()
-     *
      * @param Subject $subject
+     * @see Subject::execute()
      */
     public function beforeExecute(Subject $subject)
     {

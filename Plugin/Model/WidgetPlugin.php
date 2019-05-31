@@ -44,14 +44,13 @@ final class WidgetPlugin
 
     /**
      * Encode values that cannot be saved in normal state because of quotes in them etc.
-     * @see Subject::getWidgetDeclaration()
-     *
      * @param Subject $subject
      * @param Closure $proceed
      * @param $type
      * @param array $params
      * @param bool $asIs
      * @return mixed
+     * @see Subject::getWidgetDeclaration()
      */
     public function aroundGetWidgetDeclaration(
         /** @noinspection PhpUnusedParameterInspection */
