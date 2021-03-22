@@ -2,7 +2,7 @@
     "name": "magenerds/wysiwyg-widget",
     "description": "This module adds a wysiwyg editor to the widget menu.",
     "require": {
-        "magento/framework": "^102.0.0",
+        "magento/framework": "^103.0.0",
         "magento/module-cms": "*",
         "magento/module-backend": "*",
         "magento/module-widget": "*",
